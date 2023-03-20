@@ -4,40 +4,7 @@
 $(document).ready(function(){
   $('#generateLobbyButton').click(function (event) {
     event.preventDefault();
-    console.log('hello world');
     generateRoomCode('', null);
-    /*
-    // Firebase authentication (anonymous) linked to 
-    // TODO add game code as parameter
-
-    // Sign in
-    firebase.auth().signInAnonymously()
-        .then(() => {
-            // Signed in..
-        })
-        .catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-    });
-
-    // On sign on
-    firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
-
-            // Adds user to authorized list
-            let uid = user.uid;
-            let location = firebase.database().ref('TEST' + '/authorized/' + uid);
-            location.set(true);
-            // ...
-        } else {
-            // User is signed out
-            // ...
-        }
-    });
-    */
   });
 });
 
@@ -112,6 +79,36 @@ function verifyRoomCode(code, currentLocation) {
 // Creates a new lobby (set of values) with either new or existing players
 function createLobby(code, existPlayers) {
   console.log('this ran, code is ' + code + '.');
+  // Firebase authentication (anonymous) linked to 
+  // TODO add game code as parameter
+
+  // Sign in
+  firebase.auth().signInAnonymously()
+      .then(() => {
+          // Signed in..
+      })
+      .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ...
+  });
+
+  // On sign on
+  firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+
+          // Adds user to authorized list
+          let uid = user.uid;
+          let location = firebase.database().ref(code + '/authorized/' + uid);
+          location.set(true);
+          // ...
+      } else {
+          // User is signed out
+          // ...
+      }
+  });
 }
 
 // Function Generate monster
