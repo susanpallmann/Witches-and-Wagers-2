@@ -111,7 +111,7 @@ function verifyRoomCode(code, currentLocation) {
 
 // Creates a new lobby (set of values) with either new or existing players
 function createLobby(code, existPlayers) {
-  console.log('this ran');
+  console.log('this ran, code is ' + code + '.');
 }
 
 // Function Generate monster
