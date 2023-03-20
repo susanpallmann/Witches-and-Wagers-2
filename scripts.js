@@ -1,6 +1,10 @@
 // HOST
 
 // Function Generate lobby
+$('#generateLobbyButton').click(function (event) {
+  console.log('hello world');
+  event.preventDefault();
+});
 
 // Function Generate monster
 
