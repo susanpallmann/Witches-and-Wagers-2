@@ -5,7 +5,7 @@ $(document).ready(function(){
   $('#generateLobbyButton').click(function (event) {
     event.preventDefault();
     console.log('hello world');
-    generateRoomCode(null, 0);
+    generateRoomCode('', null);
     /*
     // Firebase authentication (anonymous) linked to 
     // TODO add game code as parameter
