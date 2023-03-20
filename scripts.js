@@ -1,9 +1,11 @@
 // HOST
 
 // Function Generate lobby
-$('#generateLobbyButton').click(function (event) {
-  event.preventDefault();
-  console.log('hello world');
+$(document).ready(function(){
+  $('#generateLobbyButton').click(function (event) {
+    event.preventDefault();
+    console.log('hello world');
+  });
 });
 
 // Recursive function to check if the room code is complete and generate random letters if not
