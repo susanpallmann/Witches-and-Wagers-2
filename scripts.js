@@ -6,6 +6,74 @@ $('#generateLobbyButton').click(function (event) {
   event.preventDefault();
 });
 
+// Recursive function to check if the room code is complete and generate random letters if not
+function generateRoomCode(code, currentLocation) {
+    
+    // If the string isn't yet 4 characters long
+    if (code.length < 4) {
+        
+        // Generate a random number between 0 and 25
+        // Convert this new value to an ascii character (uppercase)
+        let newLetter = Math.floor(Math.random() * 25);
+        newLetter = String.fromCharCode(65 + newLetter);
+        
+        // Add the new value to the existing room code
+        roomCode =  code + newLetter;
+
+        // Run this function again to check if the code is complete now (length of 4)
+        generateRoomCode(roomCode, currentLocation);
+        
+    // If the string is 4 characters
+    } else {
+        
+        // Update roomCode global variable
+        roomCode = code;
+        
+        // End recursion
+        // Passes the 4-digit code into the verifyRoomCode function
+        verifyRoomCode(roomCode, currentLocation);
+    }
+}
+
+// Function to check if the room key passed into it (key) is already an in-session game in the database
+function verifyRoomCode(code, currentLocation) {
+    
+    // Checks that specific location in the database and takes a snapshot
+    firebase.database().ref(code).once("value", snapshot => {
+
+        // If the snapshot exists already
+        if (snapshot.exists()) {
+            
+            // Rerun the code generator and try again
+            generateRoomCode('', currentLocation);
+            
+        // If the snapshot doesn't exist, we can set up the lobby
+        } else {
+            
+            // Generate lobby
+            // If no players were provided
+            if (currentLocation === null) {
+                
+                // Create empty game with no players
+                createLobby(code, currentLocation);
+                
+            // If players were provided
+            } else {
+            
+                // Grabs directory location
+                let location = firebase.database().ref(currentLocation + '/players');
+
+                // Takes ongoing snapshot
+                location.on('value', function(snapshot) {
+                    
+                    // Creates game with same players at this room code location
+                    createLobby(code, snapshot.val());
+                });
+            }
+        }
+    });
+}
+
 // Function Generate monster
 
 // Function Determine next player
