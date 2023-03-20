@@ -2,8 +2,8 @@
 
 // Function Generate lobby
 $('#generateLobbyButton').click(function (event) {
-  console.log('hello world');
   event.preventDefault();
+  console.log('hello world');
 });
 
 // Recursive function to check if the room code is complete and generate random letters if not
