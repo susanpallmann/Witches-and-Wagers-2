@@ -1,5 +1,14 @@
 // HOST
 
+// Function to remove room code from database on disconnect
+function removeRoomOnDisconnect(code) {
+  // Create a reference to the room code location in the database
+  let roomRef = firebase.database().ref(code);
+
+  // Set the onDisconnect() method to remove the room code from the database
+  roomRef.onDisconnect().remove();
+}
+
 // Create a Lobby class
 class Lobby {
   constructor() {
@@ -66,13 +75,9 @@ class Lobby {
         let location = firebase.database().ref(this.roomCode + '/authorized/' + uid);
         location.set(true);
         
-        console.log('user logged in');
-        // Add listener to detect when the user closes the browser tab
-        window.addEventListener("beforeunload", function(event) {
-          console.log('unload');
-          // Remove the room code from the database
-          firebase.database().ref(code).set(null);
-        });
+        // Remove the room code from the database when the client disconnects
+        removeRoomOnDisconnect(code);
+        
       } else {
         // User is signed out
         // ...
