@@ -66,6 +66,7 @@ class Lobby {
         let location = firebase.database().ref(this.roomCode + '/authorized/' + uid);
         location.set(true);
         
+        console.log('user logged in');
         // Add listener to detect when the user closes the browser tab
         window.addEventListener("beforeunload", function(event) {
           console.log('unload');
