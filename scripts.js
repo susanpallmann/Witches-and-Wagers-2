@@ -1,115 +1,92 @@
 // HOST
 
-// Function Generate lobby
-$(document).ready(function(){
-  $('#generateLobbyButton').click(function (event) {
-    event.preventDefault();
-    generateRoomCode('', null);
-  });
-});
+// Create a Lobby class
+class Lobby {
+  constructor() {
+    this.roomCode = '';
+    this.currentLocation = null;
+  }
 
-// Recursive function to check if the room code is complete and generate random letters if not
-function generateRoomCode(code, currentLocation) {
-    
-    // If the string isn't yet 4 characters long
+  // Function to generate lobby
+  generate() {
+    // Generate room code recursively
+    this.generateRoomCode('', this.currentLocation);
+  }
+
+  // Recursive function to check if the room code is complete and generate random letters if not
+  generateRoomCode(code) {
     if (code.length < 4) {
-        
-        // Generate a random number between 0 and 25
-        // Convert this new value to an ascii character (uppercase)
-        let newLetter = Math.floor(Math.random() * 25);
-        newLetter = String.fromCharCode(65 + newLetter);
-        
-        // Add the new value to the existing room code
-        roomCode =  code + newLetter;
-
-        // Run this function again to check if the code is complete now (length of 4)
-        generateRoomCode(roomCode, currentLocation);
-        
-    // If the string is 4 characters
+      let newLetter = Math.floor(Math.random() * 25);
+      newLetter = String.fromCharCode(65 + newLetter);
+      code += newLetter;
+      this.generateRoomCode(code);
     } else {
-        
-        // Update roomCode global variable
-        roomCode = code;
-        
-        // End recursion
-        // Passes the 4-digit code into the verifyRoomCode function
-        verifyRoomCode(roomCode, currentLocation);
+      this.roomCode = code;
+      this.verifyRoomCode(this.roomCode);
     }
-}
+  }
 
-// Function to check if the room key passed into it (key) is already an in-session game in the database
-function verifyRoomCode(code, currentLocation) {
-    
-    // Checks that specific location in the database and takes a snapshot
-    firebase.database().ref(code).once("value", snapshot => {
-
-        // If the snapshot exists already
+  // Function to check if the room key passed into it (key) is already an in-session game in the database
+  verifyRoomCode(code) {
+    firebase
+      .database()
+      .ref(code)
+      .once('value', (snapshot) => {
         if (snapshot.exists()) {
-            
-            // Rerun the code generator and try again
-            generateRoomCode('', currentLocation);
-            
-        // If the snapshot doesn't exist, we can set up the lobby
+          this.generateRoomCode('');
         } else {
-            
-            // Generate lobby
-            // If no players were provided
-            if (currentLocation === null) {
-                
-                // Create empty game with no players
-                createLobby(code, currentLocation);
-                
-            // If players were provided
-            } else {
-            
-                // Grabs directory location
-                let location = firebase.database().ref(currentLocation + '/players');
-
-                // Takes ongoing snapshot
-                location.on('value', function(snapshot) {
-                    
-                    // Creates game with same players at this room code location
-                    createLobby(code, snapshot.val());
-                });
-            }
+          this.createLobby();
         }
-    });
-}
+      });
+  }
 
-// Creates a new lobby (set of values) with either new or existing players
-function createLobby(code, existPlayers) {
-  console.log('this ran, code is ' + code + '.');
-  // Firebase authentication (anonymous) linked to 
-  // TODO add game code as parameter
+  // Creates a new lobby (set of values) with either new or existing players
+  createLobby() {
+    console.log('this ran, code is ' + this.roomCode + '.');
+    // Firebase authentication (anonymous) linked to
+    // TODO add game code as parameter
 
-  // Sign in
-  firebase.auth().signInAnonymously()
+    // Sign in
+    firebase
+      .auth()
+      .signInAnonymously()
       .then(() => {
-          // Signed in..
+        // Signed in..
       })
       .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // ...
-  });
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+      });
 
-  // On sign on
-  firebase.auth().onAuthStateChanged((user) => {
+    // On sign on
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-
-          // Adds user to authorized list
-          let uid = user.uid;
-          let location = firebase.database().ref(code + '/authorized/' + uid);
-          location.set(true);
-          // ...
+        let uid = user.uid;
+        let location = firebase.database().ref(this.roomCode + '/authorized/' + uid);
+        location.set(true);
+        
+        // Add listener to detect when the user closes the browser tab
+        window.addEventListener("beforeunload", function(event) {
+          // Remove the room code from the database
+          firebase.database().ref(code).remove();
+        });
       } else {
-          // User is signed out
-          // ...
+        // User is signed out
+        // ...
       }
-  });
+    });
+  }
 }
+
+// Create a new Lobby object and attach an event listener to the button
+const lobby = new Lobby();
+$(document).ready(function () {
+  $('#generateLobbyButton').click(function (event) {
+    event.preventDefault();
+    lobby.generate();
+  });
+});
 
 // Function Generate monster
 
