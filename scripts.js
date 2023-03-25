@@ -71,7 +71,7 @@ class Lobby {
         window.addEventListener("beforeunload", function(event) {
           console.log('unload');
           // Remove the room code from the database
-          firebase.database().ref(code).remove();
+          firebase.database().ref(code).set(null);
         });
       } else {
         // User is signed out
