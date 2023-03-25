@@ -46,7 +46,7 @@ class Lobby {
     // Firebase authentication (anonymous) linked to
     // TODO add game code as parameter
 
-    // Sign in
+    /*// Sign in
     firebase
       .auth()
       .signInAnonymously()
@@ -57,7 +57,7 @@ class Lobby {
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
-      });
+      });*/
 
     // On sign on
     firebase.auth().onAuthStateChanged((user) => {
@@ -68,6 +68,7 @@ class Lobby {
         
         // Add listener to detect when the user closes the browser tab
         window.addEventListener("beforeunload", function(event) {
+          console.log('unload');
           // Remove the room code from the database
           firebase.database().ref(code).remove();
         });
