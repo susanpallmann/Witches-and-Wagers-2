@@ -6,6 +6,7 @@ function removeRoomOnDisconnect(code) {
   let roomRef = firebase.database().ref(code);
 
   // Set the onDisconnect() method to remove the room code from the database
+  console.log(code);
   roomRef.onDisconnect().remove();
 }
 
