@@ -6,9 +6,9 @@ $(document).ready(function() {
   $('#join-game-form').submit(async function(event) {
     event.preventDefault(); // Prevent the form from submitting
     
-    const roomCode = $('#room-code-input').val();
-    console.log($('#room-code-input').val());
-    const username = $('#username-input').val();
+    const roomCode = $('#room-code').val();
+    console.log($('#room-code').val());
+    const username = $('#username').val();
     
     try {
       // Authenticate the user anonymously with Firebase Authentication
