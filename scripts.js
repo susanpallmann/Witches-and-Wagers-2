@@ -56,6 +56,10 @@ class Lobby {
           this.createLobby();
         }
       });
+    
+    getRoomCode() {
+      return this.roomCode;
+    }
   }
 
   // Creates a new lobby (set of values) with either new or existing players
@@ -102,6 +106,27 @@ $(document).ready(function () {
   $('#generateLobbyButton').click(function (event) {
     event.preventDefault();
     lobby.generate();
+    const roomCode = lobby.getRoomCode();
+    
+    // Get a reference to the "Players" directory in your Firebase database
+    const playersRef = db.ref(`${roomCode}/Players`);
+
+    // Update the HTML list of players in real-time
+    playersRef.on('value', function(snapshot) {
+      const playersList = $('#players-list');
+      playersList.empty(); // Clear the list
+
+      snapshot.forEach(function(childSnapshot) {
+        const playerName = childSnapshot.key;
+        const isVIP = childSnapshot.val().VIP;
+        const playerListItem = $('<li>');
+        playerListItem.text(playerName);
+        if (isVIP) {
+          playerListItem.append(' (VIP)');
+        }
+        playersList.append(playerListItem);
+      });
+    });
   });
 });
 
