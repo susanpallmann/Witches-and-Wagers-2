@@ -23,6 +23,7 @@ $(document).ready(function() {
         if (authorizedUserCount >= 9) {
           $('#error-message').text('The game is already full');
           await firebase.auth().currentUser.delete(); // Remove the user from Firebase Authentication
+          await firebase.auth().signOut(); // Sign the user out to remove their authentication information from the Firebase project
           return;
         }
         
@@ -32,6 +33,7 @@ $(document).ready(function() {
           if (snapshot.hasChild(username)) {
             $('#error-message').text('Username is already taken');
             await firebase.auth().currentUser.delete(); // Remove the user from Firebase Authentication
+            await firebase.auth().signOut(); // Sign the user out to remove their authentication information from the Firebase project
             return;
           }
         });
