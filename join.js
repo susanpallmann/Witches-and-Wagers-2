@@ -6,8 +6,7 @@ $(document).ready(function() {
   $('#join-game-form').submit(async function(event) {
     event.preventDefault(); // Prevent the form from submitting
     
-    const roomCode = $('#room-code').val();
-    console.log($('#room-code').val());
+    const roomCode = $('#room-code').val().toUpperCase();
     const username = $('#username').val();
     
     try {
