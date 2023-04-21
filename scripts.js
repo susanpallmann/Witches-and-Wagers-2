@@ -56,12 +56,12 @@ class Lobby {
           this.createLobby();
         }
       });
-    
-    getRoomCode() {
-      return this.roomCode;
-    }
   }
-
+  
+  getRoomCode() {
+    return this.roomCode;
+  }
+  
   // Creates a new lobby (set of values) with either new or existing players
   createLobby() {
     console.log('this ran, code is ' + this.roomCode + '.');
