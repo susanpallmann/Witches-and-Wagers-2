@@ -80,7 +80,7 @@ $(document).ready(function() {
       
       // Remove the user from the authorized list
       const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-      authorizedUserRef.remove();
+      authorizedUserRef.onDisconnect().remove();
     });
 
     $(window).on('unload', function() {
