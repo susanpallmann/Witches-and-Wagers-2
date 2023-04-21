@@ -35,27 +35,28 @@ $(document).ready(function() {
             await firebase.auth().currentUser.delete(); // Remove the user from Firebase Authentication
             await firebase.auth().signOut(); // Sign the user out to remove their authentication information from the Firebase project
             return;
+          } else {
+            
+            // Add the user's ID token to the "authorizedUsers" list in your Firebase database
+            await authorizedUsersRef.child(userCredential.user.uid).set(true);
+            
+            // Add the user's username to the "Players" directory in your Firebase database
+            const playersSnapshot = await playersRef.once('value');
+            const playerCount = playersSnapshot.numChildren();
+            
+            if (playerCount === 0) {
+              await playersRef.child(username).set({
+                VIP: true,
+              });
+            } else {
+              await playersRef.child(username).set({
+                VIP: false,
+              });
+            }
+
+            console.log('Successfully joined game!');
           }
         });
-          
-        // Add the user's ID token to the "authorizedUsers" list in your Firebase database
-        await authorizedUsersRef.child(userCredential.user.uid).set(true);
-
-        // Add the user's username to the "Players" directory in your Firebase database
-        const playersSnapshot = await playersRef.once('value');
-        const playerCount = playersSnapshot.numChildren();
-
-        if (playerCount === 0) {
-          await playersRef.child(username).set({
-            VIP: true,
-          });
-        } else {
-          await playersRef.child(username).set({
-            VIP: false,
-          });
-        }
-
-        console.log('Successfully joined game!');
       });
       
       // Add an event listener for the beforeunload event to remove the user from the Players and authorized lists
