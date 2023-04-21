@@ -18,6 +18,16 @@ $(document).ready(function() {
       // Get the user's ID token from Firebase Authentication
       const idToken = await userCredential.user.getIdToken();
 
+      // Check if the room exists
+        const roomRef = db.ref(roomCode);
+        const roomSnapshot = await roomRef.once('value');
+        if (!roomSnapshot.exists()) {
+          $('#error-message').text('Room does not exist');
+          await firebase.auth().currentUser.delete(); // Remove the user from Firebase Authentication
+          await firebase.auth().signOut(); // Sign the user out to remove their authentication information from the Firebase project
+          return;
+        }
+      
       // Check if the room has less than 9 authorized users
       const authorizedUsersRef = db.ref(`${roomCode}/authorized`);
       authorizedUsersRef.once('value', async function(snapshot) {
