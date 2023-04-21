@@ -90,7 +90,7 @@ class Lobby {
         location.set(true);
 
         // Add onDisconnect listener to remove location node when client disconnects
-        location.onDisconnect().remove();
+        location.onDisconnect().parent().remove();
 
       } else {
         // User is signed out
