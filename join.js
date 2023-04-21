@@ -18,7 +18,7 @@ $(document).ready(function() {
       
       // Check if the room has less than 8 players
       const playersRef = db.ref(`gameCodes/${roomCode}/Players`);
-      playersRef.once('value', function(snapshot) {
+      playersRef.once('value', async function(snapshot) {
         const playerCount = snapshot.numChildren();
         if (playerCount >= 8) {
           console.log('The game is already full');
