@@ -94,10 +94,7 @@ class Lobby {
 
         // Add onDisconnect listener to remove room node if current client is the last client in the room
         let roomRef = firebase.database().ref(this.roomCode);
-        roomRef.child('authorized').on('value', (snapshot) => {
-          if (!snapshot.exists()) {
-            roomRef.remove();
-          }
+        roomRef.onDisconnect().set(null);
         });
 
       } else {
