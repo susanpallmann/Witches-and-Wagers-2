@@ -17,7 +17,7 @@ $(document).ready(function() {
       const idToken = await userCredential.user.getIdToken();
       
       // Check if the room has less than 8 players
-      const playersRef = db.ref(`gameCodes/${roomCode}/Players`);
+      const playersRef = db.ref(`${roomCode}/Players`);
       playersRef.once('value', async function(snapshot) {
         const playerCount = snapshot.numChildren();
         if (playerCount >= 8) {
@@ -26,7 +26,7 @@ $(document).ready(function() {
         }
         
         // Add the user's ID token to the "authorizedUsers" list in your Firebase database
-        const authorizedUsersRef = db.ref(`gameCodes/${roomCode}/authorizedUsers`);
+        const authorizedUsersRef = db.ref(`${roomCode}/authorizedUsers`);
         await authorizedUsersRef.child(userCredential.user.uid).set(true);
 
         // Add the user's username to the "Players" directory in your Firebase database
