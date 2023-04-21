@@ -58,31 +58,30 @@ $(document).ready(function() {
           }
         });
       });
-      
-      // Add an event listener for the beforeunload event to remove the user from the Players and authorized lists
-      $(window).on('beforeunload', function() {
-        const playerRef = db.ref(`${roomCode}/Players/${username}`);
-        playerRef.remove();
-        const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-  
-        // Add an onDisconnect listener to remove the authorized user when they disconnect
-        authorizedUserRef.onDisconnect().remove();
-      });
-      
-      $(window).on('unload', function() {
-        const playerRef = db.ref(`${roomCode}/Players/${username}`);
-        playerRef.remove();
-
-        // Remove the user from the authorized list if they are not the host
-        if (!isHost) {
-          const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-          authorizedUserRef.remove();
-        }
-      });
-      
     } catch (error) {
       $('#error-message').text('Error joining game: ' + error.message);
       console.error('Error joining game:', error);
-    }
+    }   
+      
+    // Add an event listener for the beforeunload event to remove the user from the Players and authorized lists
+    $(window).on('beforeunload', function() {
+      const playerRef = db.ref(`${roomCode}/Players/${username}`);
+      playerRef.remove();
+      const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
+
+      // Add an onDisconnect listener to remove the authorized user when they disconnect
+      authorizedUserRef.onDisconnect().remove();
+    });
+
+    $(window).on('unload', function() {
+      const playerRef = db.ref(`${roomCode}/Players/${username}`);
+      playerRef.remove();
+
+      // Remove the user from the authorized list if they are not the host
+      if (!isHost) {
+        const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
+        authorizedUserRef.remove();
+      }
+    });
   });
 });
