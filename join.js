@@ -33,7 +33,8 @@ $(document).ready(function() {
             $('#error-message').text('Username is already taken');
             await firebase.auth().currentUser.delete(); // Remove the user from Firebase Authentication
             return;
-        }
+          }
+        });
           
         // Add the user's ID token to the "authorizedUsers" list in your Firebase database
         await authorizedUsersRef.child(userCredential.user.uid).set(true);
