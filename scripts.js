@@ -120,7 +120,7 @@ $(document).ready(function () {
 
     // Update the HTML list of players in real-time
     playersRef.on('value', function(snapshot) {
-      const playersList = $('#players-list');
+      const playersList = $('#lobbyPlayers');
       playersList.empty(); // Clear the list
 
       snapshot.forEach(function(childSnapshot) {
