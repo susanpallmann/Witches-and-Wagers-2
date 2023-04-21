@@ -64,7 +64,9 @@ $(document).ready(function() {
         const playerRef = db.ref(`${roomCode}/Players/${username}`);
         playerRef.remove();
         const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-        authorizedUserRef.remove();
+  
+        // Add an onDisconnect listener to remove the authorized user when they disconnect
+        authorizedUserRef.onDisconnect().remove();
       });
       
     } catch (error) {
