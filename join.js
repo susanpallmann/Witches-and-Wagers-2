@@ -3,6 +3,8 @@ $(document).ready(function() {
   const db = firebase.database();
   
   let userCredential;
+  let roomCode;
+  let username;
   
   // When the form is submitted
   $('#join-game-form').submit(async function(event) {
