@@ -1,7 +1,7 @@
 // HOST
 
-// Function to remove room code from database on disconnect
-function removeRoomOnDisconnect(code) {
+// Function to remove room code from database on disconnect || REMOVED due to other onDisconnect listener working now
+/*function removeRoomOnDisconnect(code) {
   let roomRef = firebase.database().ref(code);
 
   roomRef.onDisconnect().cancel(); // Cancel the onDisconnect listener
@@ -16,7 +16,7 @@ function removeRoomOnDisconnect(code) {
       roomRef.remove();
     }
   });
-}
+}*/
 
 // Create a Lobby class
 class Lobby {
