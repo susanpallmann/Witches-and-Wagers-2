@@ -7,6 +7,7 @@ $(document).ready(function() {
     event.preventDefault(); // Prevent the form from submitting
     
     const roomCode = $('#room-code-input').val();
+    console.log($('#room-code-input').val());
     const username = $('#username-input').val();
     
     try {
@@ -17,7 +18,7 @@ $(document).ready(function() {
       const idToken = await userCredential.user.getIdToken();
       
       // Check if the room has less than 9 authorized users
-      const authorizedUsersRef = db.ref(roomCode + '/authorized');
+      const authorizedUsersRef = db.ref(`${roomCode}/authorized`);
       authorizedUsersRef.once('value', async function(snapshot) {
         const authorizedUserCount = snapshot.numChildren();
         if (authorizedUserCount >= 9) {
