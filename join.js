@@ -40,7 +40,6 @@ $(document).ready(function() {
         await authorizedUsersRef.child(userCredential.user.uid).set(true);
 
         // Add the user's username to the "Players" directory in your Firebase database
-        const playersRef = db.ref(`${roomCode}/Players`);
         const playersSnapshot = await playersRef.once('value');
         const playerCount = playersSnapshot.numChildren();
 
