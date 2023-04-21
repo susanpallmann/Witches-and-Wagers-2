@@ -4,7 +4,10 @@
 function removeRoomOnDisconnect(code) {
   let roomRef = firebase.database().ref(code);
 
-  roomRef.onDisconnect().remove();
+  roomRef.onDisconnect().cancel(); // Cancel the onDisconnect listener
+  window.addEventListener('beforeunload', () => { // Add a listener for the beforeunload event
+    roomRef.remove(); // Remove the data directly
+  });
   
   // Add an event listener for the `onAuthStateChange()` event
   firebase.auth().onAuthStateChanged((user) => {
