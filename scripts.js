@@ -90,6 +90,9 @@ class Lobby {
         location.set(true);
 
         // Add onDisconnect listener to remove location node when client disconnects
+        location.onDisconnect().cancel();
+
+        // Add a new onDisconnect listener to remove the parent node when this specific client disconnects
         location.onDisconnect().parent().remove();
 
       } else {
