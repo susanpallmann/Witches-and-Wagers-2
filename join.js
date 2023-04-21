@@ -4,6 +4,15 @@ const db = firebase.database();
 // When the user enters a room code and their preferred username and clicks "Join Game":
 const joinGame = async (roomCode, username) => {
   try {
+    // Check if there are already 8 players in the game
+    const playersRef = db.ref(`gameCodes/${roomCode}/Players`);
+    const playersSnapshot = await playersRef.once('value');
+    const numPlayers = playersSnapshot.numChildren();
+    if (numPlayers >= 8) {
+      console.log('Error joining game: the game is already full');
+      return;
+    }
+
     // Authenticate the user anonymously with Firebase Authentication
     const userCredential = await firebase.auth().signInAnonymously();
 
@@ -15,7 +24,6 @@ const joinGame = async (roomCode, username) => {
     await authorizedUsersRef.child(userCredential.user.uid).set(true);
 
     // Add the user's username to the "Players" directory in your Firebase database
-    const playersRef = db.ref(`gameCodes/${roomCode}/Players`);
     await playersRef.child(username).set({
       VIP: false,
     });
