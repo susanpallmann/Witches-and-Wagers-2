@@ -32,9 +32,18 @@ $(document).ready(function() {
 
         // Add the user's username to the "Players" directory in your Firebase database
         const playersRef = db.ref(`${roomCode}/Players`);
-        await playersRef.child(username).set({
-          VIP: false,
-        });
+        const playersSnapshot = await playersRef.once('value');
+        const playerCount = playersSnapshot.numChildren();
+
+        if (playerCount === 0) {
+          await playersRef.child(username).set({
+            VIP: true,
+          });
+        } else {
+          await playersRef.child(username).set({
+            VIP: false,
+          });
+        }
 
         console.log('Successfully joined game!');
       });
