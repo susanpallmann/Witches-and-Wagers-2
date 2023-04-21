@@ -95,7 +95,6 @@ class Lobby {
         // Add onDisconnect listener to remove room node if current client is the last client in the room
         let roomRef = firebase.database().ref(this.roomCode);
         roomRef.onDisconnect().set(null);
-        });
 
       } else {
         // User is signed out
