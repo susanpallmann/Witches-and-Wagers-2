@@ -77,21 +77,19 @@ $(document).ready(function() {
     $(window).on('beforeunload', function() {
       const playerRef = db.ref(`${roomCode}/Players/${username}`);
       playerRef.remove();
+      
+      // Remove the user from the authorized list
       const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-
-      // Add an onDisconnect listener to remove the authorized user when they disconnect
-      authorizedUserRef.onDisconnect().remove();
+      authorizedUserRef.remove();
     });
 
     $(window).on('unload', function() {
       const playerRef = db.ref(`${roomCode}/Players/${username}`);
       playerRef.remove();
 
-      // Remove the user from the authorized list if they are not the host
-      if (!isHost) {
-        const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-        authorizedUserRef.remove();
-      }
+      // Remove the user from the authorized list
+      const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
+      authorizedUserRef.remove();
     });
   });
 });
