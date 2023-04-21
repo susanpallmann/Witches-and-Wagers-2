@@ -6,8 +6,8 @@ $(document).ready(function() {
   $('#join-game-form').submit(async function(event) {
     event.preventDefault(); // Prevent the form from submitting
     
-    const roomCode = $('#room-code').val();
-    const username = $('#username').val();
+    const roomCode = $('#room-code-input').val();
+    const username = $('#username-input').val();
     
     try {
       // Authenticate the user anonymously with Firebase Authentication
@@ -16,20 +16,21 @@ $(document).ready(function() {
       // Get the user's ID token from Firebase Authentication
       const idToken = await userCredential.user.getIdToken();
       
-      // Check if the room has less than 8 players
-      const playersRef = db.ref(`${roomCode}/Players`);
-      playersRef.once('value', async function(snapshot) {
-        const playerCount = snapshot.numChildren();
-        if (playerCount >= 8) {
+      // Check if the room has less than 9 authorized users
+      const authorizedUsersRef = db.ref(`${roomCode}/authorizedUsers`);
+      authorizedUsersRef.once('value', async function(snapshot) {
+        const authorizedUserCount = snapshot.numChildren();
+        if (authorizedUserCount >= 9) {
           $('#error-message').text('The game is already full');
+          await firebase.auth().currentUser.delete(); // Remove the user from Firebase Authentication
           return;
         }
         
         // Add the user's ID token to the "authorizedUsers" list in your Firebase database
-        const authorizedUsersRef = db.ref(`${roomCode}/authorizedUsers`);
         await authorizedUsersRef.child(userCredential.user.uid).set(true);
 
         // Add the user's username to the "Players" directory in your Firebase database
+        const playersRef = db.ref(`${roomCode}/Players`);
         await playersRef.child(username).set({
           VIP: false,
         });
@@ -38,9 +39,8 @@ $(document).ready(function() {
       });
       
     } catch (error) {
-      $('#error-message').text(`Error joining game: ${error.message}`);
+      $('#error-message').text('Error joining game: ' + error.message);
+      console.error('Error joining game:', error);
     }
-
-    return false; // Stop the form submission
   });
 });
