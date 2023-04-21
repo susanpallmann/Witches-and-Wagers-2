@@ -61,6 +61,7 @@ class Lobby {
   // Creates a new lobby (set of values) with either new or existing players
   createLobby() {
     console.log('this ran, code is ' + this.roomCode + '.');
+
     // Firebase authentication (anonymous) linked to
     // TODO add game code as parameter
 
@@ -83,7 +84,10 @@ class Lobby {
         let uid = user.uid;
         let location = firebase.database().ref(this.roomCode + '/authorized/' + uid);
         location.set(true);
-        
+
+        // Add onDisconnect listener to remove location node when client disconnects
+        location.onDisconnect().remove();
+
       } else {
         // User is signed out
         // ...
