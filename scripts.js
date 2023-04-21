@@ -90,10 +90,15 @@ class Lobby {
         location.set(true);
 
         // Add onDisconnect listener to remove location node when client disconnects
-        location.onDisconnect().cancel();
+        location.onDisconnect().set(null);
 
-        // Add a new onDisconnect listener to remove the parent node when this specific client disconnects
-        location.onDisconnect().parent().remove();
+        // Add onDisconnect listener to remove room node if current client is the last client in the room
+        let roomRef = firebase.database().ref(this.roomCode);
+        roomRef.child('authorized').on('value', (snapshot) => {
+          if (!snapshot.exists()) {
+            roomRef.remove();
+          }
+        });
 
       } else {
         // User is signed out
