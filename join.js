@@ -21,7 +21,7 @@ $(document).ready(function() {
       playersRef.once('value', async function(snapshot) {
         const playerCount = snapshot.numChildren();
         if (playerCount >= 8) {
-          console.log('The game is already full');
+          $('#error-message').text('The game is already full');
           return;
         }
         
@@ -38,7 +38,7 @@ $(document).ready(function() {
       });
       
     } catch (error) {
-      console.error('Error joining game:', error);
+      $('#error-message').text(`Error joining game: ${error.message}`);
     }
 
     return false; // Stop the form submission
