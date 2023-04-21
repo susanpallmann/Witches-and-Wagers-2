@@ -64,23 +64,22 @@ $(document).ready(function() {
       $('#error-message').text('Error joining game: ' + error.message);
     }
   });
+});
+// Add an event listener for the beforeunload event to remove the user from the Players and authorized lists
+$(window).on('beforeunload', function() {
+  const playerRef = db.ref(`${roomCode}/Players/${username}`);
+  playerRef.remove();
 
-  // Add an event listener for the beforeunload event to remove the user from the Players and authorized lists
-  $(window).on('beforeunload', function() {
-    const playerRef = db.ref(`${roomCode}/Players/${username}`);
-    playerRef.remove();
+  // Remove the user from the authorized list when they disconnect
+  const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
+  authorizedUserRef.onDisconnect().remove();
+});
 
-    // Remove the user from the authorized list when they disconnect
-    const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-    authorizedUserRef.onDisconnect().remove();
-  });
+$(window).on('unload', function() {
+  const playerRef = db.ref(`${roomCode}/Players/${username}`);
+  playerRef.remove();
 
-  $(window).on('unload', function() {
-    const playerRef = db.ref(`${roomCode}/Players/${username}`);
-    playerRef.remove();
-
-    // Remove the user from the authorized list
-    const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-    authorizedUserRef.remove();
-  });
+  // Remove the user from the authorized list
+  const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
+  authorizedUserRef.remove();
 });
