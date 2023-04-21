@@ -108,6 +108,9 @@ $(document).ready(function () {
     lobby.generate();
     const roomCode = lobby.getRoomCode();
     
+    // Get a reference to the Firebase database
+    const db = firebase.database();
+    
     // Get a reference to the "Players" directory in your Firebase database
     const playersRef = db.ref(`${roomCode}/Players`);
 
