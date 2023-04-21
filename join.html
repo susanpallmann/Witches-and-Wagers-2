@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <!-- Meta Information -->
+    <title>Witches & Wagers</title>
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" type="image/png" href="favicon.png" >
+    
+    <!-- Mobile Sizing -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Responsive Grid -->
+    <link rel="stylesheet" type="text/css" href="discount-bootstrap.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Montserrat:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- No-Script Styling -->
+    <noscript><link rel="stylesheet" type="text/css" href="no-script.css"></noscript>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use -->
+    <!-- https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+
+    <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDwqArHWn_e9BPwTWaUle5Bczsq6dmGe4k",
+      authDomain: "witches-and-wagers-2.firebaseapp.com",
+      projectId: "witches-and-wagers-2",
+      storageBucket: "witches-and-wagers-2.appspot.com",
+      messagingSenderId: "871801311419",
+      appId: "1:871801311419:web:dc96c0fba605f9a081d99e"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    </script>
+    
+    <!-- Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="items.js"></script>
+    <script src="discount-bootstrap.js"></script>
+    <script src="scripts.js"></script>
+    <script src="join.js"></script>
+  </head>
+  <body>
+    <main>
+      <div class="container" id="title">
+        <h1>Game Title</h1>
+        <a id="generateLobbyButton" href="">Click here to start.</a>
+      </div>
+      <div class="container" id="lobby">
+        <h1 class="roomCode">TEST</h1>
+        <h2>Players</h2>
+        <span id="lobbyPlayers"></span>
+        <p>The VIP will start the game once everyone's in.</p>
+      </div>
+      <div class="container" id="tutorial">
+        <h1>Tutorial here</h1>
+      </div>
+      
+      <div class="container gamePlay" id="battleField">
+        <div id="scoreboardSmall"></div>
+        <p class="timer">60</p>
+        <div id="monster"></div>
+        <div id="playerBattle"></div>
+        <div id="itemsInPlay"></div>
+      </div>
+      <div class="container gamePlay" id="scoreboardFull">
+        <h1>Scoreboard</h1>
+      </div>
+      
+      <div class="container" id="victory">
+        <h1><span id="winnerName">Name</span> wins!</h1>
+      </div>
+      <div class="container" id="endCredits">
+        <h1><span id="creditsWinnerName">Name</span> wins!</h1>
+        <h2>Notables</h2>
+        <p>Coward: <span class="cowardName">Name</span></p>
+        <p>Optimist: <span class="optimistName">Name</span></p>
+        <p>Pessimist: <span class="pessimistName">Name</span></p>
+        <p>Saboteur: <span class="saboteurName">Name</span></p>
+        <p>Assist: <span class="assistName">Name</span></p>
+      </div>
+    </main>
+  </body>
+</script>
