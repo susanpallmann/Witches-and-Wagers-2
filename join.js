@@ -40,5 +40,7 @@ $(document).ready(function() {
     } catch (error) {
       console.error('Error joining game:', error);
     }
+
+    return false; // Stop the form submission
   });
 });
