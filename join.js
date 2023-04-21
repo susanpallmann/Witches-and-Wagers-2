@@ -39,6 +39,14 @@ $(document).ready(function() {
         console.log('Successfully joined game!');
       });
       
+      // Add an event listener for the beforeunload event to remove the user from the Players and authorized lists
+      $(window).on('beforeunload', function() {
+        const playerRef = db.ref(`${roomCode}/Players/${username}`);
+        playerRef.remove();
+        const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
+        authorizedUserRef.remove();
+      });
+      
     } catch (error) {
       $('#error-message').text('Error joining game: ' + error.message);
       console.error('Error joining game:', error);
