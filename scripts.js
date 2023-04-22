@@ -268,7 +268,6 @@ $(document).ready(() => {
     $('.roomCode').text(roomCode);
     lobby.updatePlayersList();
     await lobby.createLobby();
-    await lobby.updateGamePhase('gameStartViable');
   });
 });
 
