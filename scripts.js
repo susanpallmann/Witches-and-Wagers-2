@@ -184,6 +184,7 @@ function generateRoomCode() {
 class Lobby {
   constructor() {
     this.roomCode = '';
+    this.gameControllerRef = firebase.database().ref(`${this.roomCode}/gameController`);
   }
 
   // Generate a new room code
