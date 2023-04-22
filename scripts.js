@@ -167,6 +167,8 @@ $(document).ready(function () {
   });
 });
 */
+
+
 // Define constants for the room code length and character set
 const ROOM_CODE_LENGTH = 4;
 const ROOM_CODE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -260,6 +262,9 @@ class Lobby {
     });
   }
 }
+
+// Export
+export { lobby };
 
 // Create a new lobby object and attach an event listener to the button
 const lobby = new Lobby();
