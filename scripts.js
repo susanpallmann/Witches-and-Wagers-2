@@ -54,6 +54,7 @@ class Lobby {
           this.generateRoomCode('');
         } else {
           this.createLobby();
+          $('.roomCode').text(code);
         }
       });
   }
@@ -131,9 +132,6 @@ $(document).ready(function () {
   $('#generateLobbyButton').click(async function (event) {
     event.preventDefault();
     await lobby.generate();
-    const roomCode = lobby.roomCode;
-    console.log(roomCode);
-    $('.roomCode').text(roomCode);
     
     // Get a reference to the Firebase database
     const db = firebase.database();
