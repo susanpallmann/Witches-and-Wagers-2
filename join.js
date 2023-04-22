@@ -56,7 +56,7 @@ $(document).ready(function() {
           try {
             const gameControllerRef = firebase.database().ref(`${roomCode}/gameController`);
             await gameControllerRef.update({
-              gamePhase: 'gameStartViable';
+              gamePhase: 'gameStartViable'
             });
           } catch (error) {
             console.error(error);
