@@ -184,7 +184,6 @@ function generateRoomCode() {
 class Lobby {
   constructor() {
     this.roomCode = '';
-    this.gameControllerRef = firebase.database().ref(`${this.roomCode}/gameController`);
   }
 
   // Generate a new room code
@@ -200,6 +199,7 @@ class Lobby {
   // Updates the game phase in the game controller
   async updateGamePhase(phase) {
     try {
+      const gameControllerRef = firebase.database().ref(`${this.roomCode}/gameController`);
       await this.gameControllerRef.update({
         gamePhase: phase
       });
