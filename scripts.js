@@ -18,6 +18,27 @@
   });
 }*/
 
+// Function to set up game controller in database
+function createGameController(roomCode) {
+  // Get a reference to the Firebase database
+  const db = firebase.database();
+
+  // Set up game controller object
+  const gameControllerRef = db.ref(`${roomCode}/gameController`);
+  gameControllerRef.set({
+    gamePhase: 'waitingForPlayers',
+    currentPlayer: '',
+    bets: {}
+  });
+
+  // Update the game controller in real-time
+  gameControllerRef.on('value', function(snapshot) {
+    const gameController = snapshot.val();
+    // Update UI accordingly
+    // ...
+  });
+}
+
 // Create a Lobby class
 class Lobby {
   constructor() {
@@ -105,27 +126,6 @@ class Lobby {
       }
     });
   }
-}
-
-// Function to set up game controller in database
-function createGameController(roomCode) {
-  // Get a reference to the Firebase database
-  const db = firebase.database();
-
-  // Set up game controller object
-  const gameControllerRef = db.ref(`${roomCode}/gameController`);
-  gameControllerRef.set({
-    gamePhase: 'waitingForPlayers',
-    currentPlayer: '',
-    bets: {}
-  });
-
-  // Update the game controller in real-time
-  gameControllerRef.on('value', function(snapshot) {
-    const gameController = snapshot.val();
-    // Update UI accordingly
-    // ...
-  });
 }
 
 // Create a new Lobby object and attach an event listener to the button
