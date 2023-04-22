@@ -1,4 +1,4 @@
-//Import
+//Import //
 import { lobby } from './scripts.js';
 
 $(document).ready(function() {
