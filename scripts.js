@@ -79,8 +79,6 @@ class Lobby {
           this.createLobby();
           $('.roomCode').text(code);
           roomCode = code;
-          // Set up game controller
-          createGameController(code);
         }
       });
   }
@@ -115,6 +113,9 @@ class Lobby {
         let uid = user.uid;
         let location = firebase.database().ref(this.roomCode + '/authorized/' + uid);
         location.set(true);
+        
+        // Set up game controller
+        createGameController(code);
 
         // Add onDisconnect listener to remove location node when client disconnects
         location.onDisconnect().set(null);
