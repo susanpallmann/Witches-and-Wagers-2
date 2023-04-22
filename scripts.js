@@ -18,6 +18,8 @@
   });
 }*/
 
+let roomCode;
+
 // Function to set up game controller in database
 function createGameController(roomCode) {
   // Get a reference to the Firebase database
@@ -76,6 +78,7 @@ class Lobby {
         } else {
           this.createLobby();
           $('.roomCode').text(code);
+          roomCode = code;
           // Set up game controller
           createGameController(code);
         }
