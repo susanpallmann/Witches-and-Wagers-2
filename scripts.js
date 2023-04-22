@@ -200,7 +200,7 @@ class Lobby {
   async updateGamePhase(phase) {
     try {
       const gameControllerRef = firebase.database().ref(`${this.roomCode}/gameController`);
-      await this.gameControllerRef.update({
+      await gameControllerRef.update({
         gamePhase: phase
       });
     } catch (error) {
