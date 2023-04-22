@@ -267,7 +267,7 @@ $(document).ready(() => {
     $('.roomCode').text(roomCode);
     lobby.updatePlayersList();
     await lobby.createLobby();
-    updateGamePhase('gameStartViable');
+    await lobby.updateGamePhase('gameStartViable');
   });
 });
 
