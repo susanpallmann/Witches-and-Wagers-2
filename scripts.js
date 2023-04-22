@@ -1,8 +1,5 @@
 // HOST
 
-// Export
-export { lobby };
-
 // Define constants for the room code length and character set
 const ROOM_CODE_LENGTH = 4;
 const ROOM_CODE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -98,7 +95,7 @@ class Lobby {
 }
 
 // Create a new lobby object and attach an event listener to the button
-const lobby = new Lobby();
+export const lobby = new Lobby();
 $(document).ready(() => {
   $('#generateLobbyButton').click(async (event) => {
     event.preventDefault();
