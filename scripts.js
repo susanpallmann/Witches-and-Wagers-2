@@ -132,6 +132,7 @@ $(document).ready(function () {
     event.preventDefault();
     lobby.generate();
     const roomCode = lobby.roomCode;
+    console.log(roomCode);
     $('.roomCode').text(roomCode);
     
     // Get a reference to the Firebase database
