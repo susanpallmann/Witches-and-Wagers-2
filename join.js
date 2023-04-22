@@ -62,6 +62,8 @@ $(document).ready(function() {
               await playersRef.child(username).set({
                 VIP: true,
               });
+              // Set the first player as VIP and the current player in the game controller
+              gameController.currentPlayer = username;
             } else {
               await playersRef.child(username).set({
                 VIP: false,
