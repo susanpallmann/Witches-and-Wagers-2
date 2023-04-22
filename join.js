@@ -1,18 +1,18 @@
 $(document).ready(function() {
   // Get a reference to the Firebase database
   const db = firebase.database();
-  
+
   let userCredential;
   let roomCode;
   let username;
-  
+
   // When the form is submitted
   $('#join-game-form').submit(async function(event) {
     event.preventDefault(); // Prevent the form from submitting
-    
+
     roomCode = $('#room-code').val().toUpperCase();
     username = $('#username').val();
-    
+
     try {
       // Authenticate the user anonymously with Firebase Authentication
       userCredential = await firebase.auth().signInAnonymously();
@@ -21,15 +21,15 @@ $(document).ready(function() {
       const idToken = await userCredential.user.getIdToken();
 
       // Check if the room exists
-        const roomRef = db.ref(roomCode);
-        const roomSnapshot = await roomRef.once('value');
-        if (!roomSnapshot.exists()) {
-          $('#error-message').text('Room does not exist');
-          await firebase.auth().currentUser.delete(); // Remove the user from Firebase Authentication
-          await firebase.auth().signOut(); // Sign the user out to remove their authentication information from the Firebase project
-          return;
-        }
-      
+      const roomRef = db.ref(roomCode);
+      const roomSnapshot = await roomRef.once('value');
+      if (!roomSnapshot.exists()) {
+        $('#error-message').text('Room does not exist');
+        await firebase.auth().currentUser.delete(); // Remove the user from Firebase Authentication
+        await firebase.auth().signOut(); // Sign the user out to remove their authentication information from the Firebase project
+        return;
+      }
+
       // Check if the room has less than 9 authorized users
       const authorizedUsersRef = db.ref(`${roomCode}/authorized`);
       authorizedUsersRef.once('value', async function(snapshot) {
@@ -76,22 +76,24 @@ $(document).ready(function() {
       $('#error-message').text('Error joining game: ' + error.message);
     }
   });
-});
-// Add an event listener for the beforeunload event to remove the user from the Players and authorized lists
-$(window).on('beforeunload', function() {
-  const playerRef = db.ref(`${roomCode}/Players/${username}`);
-  playerRef.remove();
+  
+  // Add an event listener for the beforeunload event to remove the user from the Players and authorized lists
+  $(window).on('beforeunload', function() {
+    const playerRef = db.ref(`${roomCode}/Players/${username}`);
+    playerRef.remove();
 
-  // Remove the user from the authorized list when they disconnect
-  const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-  authorizedUserRef.onDisconnect().remove();
-});
+    // Remove the user from the authorized list when they disconnect
+    const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
+    authorizedUserRef.onDisconnect().remove();
+  });
 
-$(window).on('unload', function() {
-  const playerRef = db.ref(`${roomCode}/Players/${username}`);
-  playerRef.remove();
+  $(window).on('unload', function() {
+    const playerRef = db.ref(`${roomCode}/Players/${username}`);
+    playerRef.remove();
 
-  // Remove the user from the authorized list
-  const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
-  authorizedUserRef.remove();
+    // Remove the user from the authorized list
+    const authorizedUserRef = db.ref(`${roomCode}/authorized/${userCredential.user.uid}`);
+    authorizedUserRef.remove();
+  });
+
 });
