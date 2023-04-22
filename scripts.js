@@ -128,9 +128,9 @@ function createGameController(roomCode) {
 // Create a new Lobby object and attach an event listener to the button
 const lobby = new Lobby();
 $(document).ready(function () {
-  $('#generateLobbyButton').click(function (event) {
+  $('#generateLobbyButton').click(async function (event) {
     event.preventDefault();
-    lobby.generate();
+    await lobby.generate();
     const roomCode = lobby.roomCode;
     console.log(roomCode);
     $('.roomCode').text(roomCode);
