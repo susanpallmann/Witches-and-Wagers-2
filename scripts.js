@@ -231,9 +231,9 @@ class Lobby {
   // Update the list of players in the lobby
   updatePlayersList() {
     const playersList = $('#lobbyPlayers');
-    playersList.empty(); // Clear the list
 
     firebase.database().ref(`${this.roomCode}/Players`).on('value', (snapshot) => {
+      playersList.empty(); // Clear the list
       snapshot.forEach((childSnapshot) => {
         const playerName = childSnapshot.key;
         const isVIP = childSnapshot.val().VIP;
