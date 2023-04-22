@@ -20,6 +20,31 @@
 
 let roomCode;
 
+function updatePlayersList(roomCode) {
+  // Get a reference to the Firebase database
+  const db = firebase.database();
+
+  // Get a reference to the "Players" directory in your Firebase database
+  const playersRef = db.ref(`${roomCode}/Players`);
+
+  // Update the HTML list of players in real-time
+  playersRef.on('value', function(snapshot) {
+    const playersList = $('#lobbyPlayers');
+    playersList.empty(); // Clear the list
+
+    snapshot.forEach(function(childSnapshot) {
+      const playerName = childSnapshot.key;
+      const isVIP = childSnapshot.val().VIP;
+      const playerListItem = $('<li>');
+      playerListItem.text(playerName);
+      if (isVIP) {
+        playerListItem.append(' (VIP)');
+      }
+      playersList.prepend(playerListItem);
+    });
+  });
+});
+
 // Function to set up game controller in database
 function createGameController(roomCode) {
   // Get a reference to the Firebase database
@@ -79,6 +104,7 @@ class Lobby {
           this.createLobby();
           $('.roomCode').text(code);
           roomCode = code;
+          updatePlayersList(roomCode);
         }
       });
   }
@@ -135,32 +161,9 @@ class Lobby {
 // Create a new Lobby object and attach an event listener to the button
 const lobby = new Lobby();
 $(document).ready(function () {
-  $('#generateLobbyButton').click(async function (event) {
+  $('#generateLobbyButton').click(function (event) {
     event.preventDefault();
-    await lobby.generate();
-    
-    // Get a reference to the Firebase database
-    const db = firebase.database();
-    
-    // Get a reference to the "Players" directory in your Firebase database
-    const playersRef = db.ref(`${roomCode}/Players`);
-
-    // Update the HTML list of players in real-time
-    playersRef.on('value', function(snapshot) {
-      const playersList = $('#lobbyPlayers');
-      playersList.empty(); // Clear the list
-
-      snapshot.forEach(function(childSnapshot) {
-        const playerName = childSnapshot.key;
-        const isVIP = childSnapshot.val().VIP;
-        const playerListItem = $('<li>');
-        playerListItem.text(playerName);
-        if (isVIP) {
-          playerListItem.append(' (VIP)');
-        }
-        playersList.prepend(playerListItem);
-      });
-    });
+    lobby.generate();
   });
 });
 
