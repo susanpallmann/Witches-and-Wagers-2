@@ -56,8 +56,8 @@ $(document).ready(function() {
           await db.ref(`${roomCode}/Players/${username}`).set({
             VIP: true,
           });
-          console.log(lobby);
-          lobby.updateGamePhase('gameStartViable');
+          await console.log(lobby);
+          await lobby.updateGamePhase('gameStartViable');
 
           // Set the first player as VIP and the current player in the game controller
           await db.ref(`${roomCode}/gameController/currentPlayer`).set(username);
