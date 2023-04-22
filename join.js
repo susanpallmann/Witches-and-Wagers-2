@@ -105,7 +105,7 @@
 
 
 
-
+import { lobby } from 'scripts.js';
 
 $(document).ready(function() {
   // Get a reference to the Firebase database
