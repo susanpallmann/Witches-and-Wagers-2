@@ -55,6 +55,8 @@ class Lobby {
         } else {
           this.createLobby();
           $('.roomCode').text(code);
+          // Set up game controller
+          createGameController(code);
         }
       });
   }
@@ -138,9 +140,6 @@ $(document).ready(function () {
     
     // Get a reference to the "Players" directory in your Firebase database
     const playersRef = db.ref(`${roomCode}/Players`);
-    
-    // Set up game controller
-    createGameController(roomCode);
 
     // Update the HTML list of players in real-time
     playersRef.on('value', function(snapshot) {
