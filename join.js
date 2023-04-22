@@ -65,7 +65,7 @@ $(document).ready(function() {
 
               // Set the first player as VIP and the current player in the game controller
               let currentPlayerLocation = firebase.database().ref(this.roomCode + '/gameController/' + currentPlayer);
-              currentPlayerLocation.set(username);
+              await currentPlayerLocation.set(username);
               
             } else {
               await playersRef.child(username).set({
