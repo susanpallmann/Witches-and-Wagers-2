@@ -26,6 +26,7 @@ class Lobby {
       code = generateRoomCode();
     }
     this.roomCode = code;
+    console.log('set code to ' + this.roomCode);
     return code;
   }
   
