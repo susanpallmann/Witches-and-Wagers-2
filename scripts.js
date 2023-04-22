@@ -104,6 +104,27 @@ class Lobby {
   }
 }
 
+// Function to set up game controller in database
+function createGameController(roomCode) {
+  // Get a reference to the Firebase database
+  const db = firebase.database();
+
+  // Set up game controller object
+  const gameControllerRef = db.ref(`${roomCode}/gameController`);
+  gameControllerRef.set({
+    gamePhase: 'waitingForPlayers',
+    currentPlayer: '',
+    bets: {}
+  });
+
+  // Update the game controller in real-time
+  gameControllerRef.on('value', function(snapshot) {
+    const gameController = snapshot.val();
+    // Update UI accordingly
+    // ...
+  });
+}
+
 // Create a new Lobby object and attach an event listener to the button
 const lobby = new Lobby();
 $(document).ready(function () {
@@ -118,6 +139,9 @@ $(document).ready(function () {
     
     // Get a reference to the "Players" directory in your Firebase database
     const playersRef = db.ref(`${roomCode}/Players`);
+    
+    // Set up game controller
+    createGameController(roomCode);
 
     // Update the HTML list of players in real-time
     playersRef.on('value', function(snapshot) {
