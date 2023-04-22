@@ -199,9 +199,9 @@ class Lobby {
   // Updates the game phase in the game controller
   async updateGamePhase(phase) {
     console.log(phase);
-    console.log(`${this.roomCode}`);
+    console.log(this.roomCode);
     try {
-      const gameControllerRef = firebase.database().ref(`${this.roomCode}/gameController`);
+      const gameControllerRef = firebase.database().ref(this.roomCode + `/gameController`);
       await gameControllerRef.update({
         gamePhase: phase
       });
