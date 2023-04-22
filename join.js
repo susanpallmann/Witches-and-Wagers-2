@@ -162,12 +162,9 @@ $(document).ready(function() {
           await db.ref(`${roomCode}/Players/${username}`).set({
             VIP: true,
           });
-          console.log(lobby.roomCode);
-          if (lobby) {
-            await lobby.updateGamePhase('gameStartViable');
-          } else {
-            console.error('Lobby is not defined or instantiated');
-          }
+          console.log(lobby);
+          lobby.updateGamePhase('gameStartViable');
+
           // Set the first player as VIP and the current player in the game controller
           await db.ref(`${roomCode}/gameController/currentPlayer`).set(username);
         } else {
