@@ -26,22 +26,7 @@ class Lobby {
       code = generateRoomCode();
     }
     this.roomCode = code;
-    console.log('set code to ' + this.roomCode);
     return code;
-  }
-  
-  // Updates the game phase in the game controller
-  async updateGamePhase(phase) {
-    console.log(phase);
-    console.log(this.roomCode);
-    try {
-      const gameControllerRef = firebase.database().ref(this.roomCode + `/gameController`);
-      await gameControllerRef.update({
-        gamePhase: phase
-      });
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   // Check if a room code exists in the database
@@ -96,7 +81,7 @@ class Lobby {
 }
 
 // Create a new lobby object and attach an event listener to the button
-export const lobby = new Lobby();
+const lobby = new Lobby();
 $(document).ready(() => {
   $('#generateLobbyButton').click(async (event) => {
     event.preventDefault();
