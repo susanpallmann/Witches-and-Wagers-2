@@ -1,6 +1,3 @@
-//Import //
-import { lobby } from './scripts.js';
-
 $(document).ready(function() {
   // Get a reference to the Firebase database
   const db = firebase.database();
@@ -56,8 +53,14 @@ $(document).ready(function() {
           await db.ref(`${roomCode}/Players/${username}`).set({
             VIP: true,
           });
-          await console.log(lobby);
-          await lobby.updateGamePhase('gameStartViable');
+          try {
+            const gameControllerRef = firebase.database().ref(`${roomCode}/gameController`);
+            await gameControllerRef.update({
+              gamePhase: 'gameStartViable';
+            });
+          } catch (error) {
+            console.error(error);
+          }
 
           // Set the first player as VIP and the current player in the game controller
           await db.ref(`${roomCode}/gameController/currentPlayer`).set(username);
