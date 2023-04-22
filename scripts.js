@@ -43,7 +43,7 @@ function updatePlayersList(roomCode) {
       playersList.prepend(playerListItem);
     });
   });
-});
+}
 
 // Function to set up game controller in database
 function createGameController(roomCode) {
