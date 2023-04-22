@@ -131,7 +131,7 @@ $(document).ready(function () {
         if (isVIP) {
           playerListItem.append(' (VIP)');
         }
-        playersList.append(playerListItem);
+        playersList.prepend(playerListItem);
       });
     });
   });
