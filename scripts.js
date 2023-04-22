@@ -195,6 +195,17 @@ class Lobby {
     this.roomCode = code;
     return code;
   }
+  
+  // Updates the game phase in the game controller
+  async updateGamePhase(phase) {
+    try {
+      await this.gameControllerRef.update({
+        gamePhase: phase
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   // Check if a room code exists in the database
   async roomCodeExists(code) {
@@ -256,6 +267,7 @@ $(document).ready(() => {
     $('.roomCode').text(roomCode);
     lobby.updatePlayersList();
     await lobby.createLobby();
+    updateGamePhase('gameStartViable');
   });
 });
 
@@ -263,7 +275,7 @@ $(document).ready(() => {
 async function createGameController(roomCode) {
   const gameControllerRef = firebase.database().ref(`${roomCode}/gameController`);
   await gameControllerRef.set({
-    gamePhase: 'waitingForPlayers',
+    gamePhase: 'lobbySetup',
     currentPlayer: '',
     bets: {},
   });
