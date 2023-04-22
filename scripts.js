@@ -115,7 +115,7 @@ class Lobby {
         location.set(true);
         
         // Set up game controller
-        createGameController(code);
+        createGameController(this.roomCode);
 
         // Add onDisconnect listener to remove location node when client disconnects
         location.onDisconnect().set(null);
