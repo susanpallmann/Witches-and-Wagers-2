@@ -131,7 +131,7 @@ $(document).ready(function () {
   $('#generateLobbyButton').click(function (event) {
     event.preventDefault();
     lobby.generate();
-    const roomCode = lobby.getRoomCode();
+    const roomCode = lobby.roomCode;
     $('.roomCode').text(roomCode);
     
     // Get a reference to the Firebase database
