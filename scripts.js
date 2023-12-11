@@ -142,7 +142,7 @@ game17_payPlayer
 game18_betPayout
 game19_displayScoreboard
 game20_checkWinner
-game_21_restartRound
+game21_restartRound
 game100_closePlayerAction_2
 game101_playerActionTimer_2
 game102_closePlayerAction_2
